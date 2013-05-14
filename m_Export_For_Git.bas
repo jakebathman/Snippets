@@ -28,6 +28,12 @@ End Sub
 
 
 
+'	IF ERROR ON UNKNOWN TYPE:
+'		- Tools --> References...
+'		- Add "Microsoft Visual Basic for Applications Extensibility 5.3"
+
+
+
 '   From:   http://www.cpearson.com/excel/vbe.aspx
 '           "Exporting A VBComponent Code Module To A Text File"
 
