@@ -81,8 +81,33 @@ Public Function ExportVBComponent(VBComp As VBIDE.VBComponent, _
         End If
     End If
 
+    On Error GoTo ErrCantExport
     VBComp.Export FileName:=FName
     ExportVBComponent = True
+    On Error GoTo 0
+
+ErrCantExport:
+
+    If Not ExportVBComponent Then
+        Dim a$, b$, c$, i As Integer
+
+        a$ = Mid(FName, Len(FolderName))
+        If InStr(1, a$, "\", vbTextCompare) > 0 Then a$ = Mid(a$, InStr(1, a$, "\", vbTextCompare) + 1)
+        For i = 1 To Len(a$)
+            b$ = Mid(a$, i, 1)
+            If b$ Like "[A-Z,a-z,0-9 _-]" Then
+                c$ = c$ & b$
+            End If
+        Next i
+
+        If StrComp(Right(FolderName, 1), "\", vbTextCompare) = 0 Then
+            FName = FolderName & c$
+        Else
+            FName = FolderName & "\" & c$
+        End If
+
+        Resume
+    End If
 
 End Function
 
