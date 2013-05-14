@@ -9,7 +9,7 @@ Public Sub ExportForGit()
     Dim v, t
     Dim c%
 
-    strExportFolder = "C:\Users\e008922\Dropbox\_Git\PHEP-Activity-Log"
+    strExportFolder = "C:\Users\e008922\Dropbox\_Git\##REPO-FOLDER-HERE##"
 
     For Each vC In ActiveWorkbook.VBProject.VBComponents
         v = ExportVBComponent(vC, strExportFolder, , True)
@@ -21,7 +21,7 @@ Public Sub ExportForGit()
         c = c + 1
     Next
     
-    Application.ActiveWorkbook.SaveCopyAs "C:\Users\e008922\Dropbox\_Git\PHEP-Activity-Log\PHEP Activity Log.xlsm"
+    Application.ActiveWorkbook.SaveCopyAs "C:\Users\e008922\Dropbox\_Git\##REPO-FOLDER-HERE##\FILE NAME HERE.xlsm"
 
 End Sub
 
