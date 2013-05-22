@@ -1,0 +1,78 @@
+Option Explicit
+
+Public Sub ExportToCSV(strCurWBName As String, strCurWSName As String, Optional strFilePrefix As String)
+
+
+Dim strfilename As String
+Dim strOutputPrefix$
+Dim strNow As String
+Dim strDate As String
+Dim strTime As String
+Dim strMin As String
+Dim strCurDir As String
+Dim strAWName As String
+Dim strNewWBName As String
+Dim strTempNewWBName As String
+Dim vbOpenFolder
+Dim strPath As String
+Dim intLastRow%, i%
+
+strDate = Date
+If Len(Minute(Time)) = 1 Then strMin = "0" & Minute(Time) Else strMin = Minute(Time)
+strTime = Hour(Time) & strMin
+'strTime = Left(Time, Len(Time) - 6)
+'strTime = Replace(strTime, ":", "")
+If Len(strTime) = 3 Then strTime = "0" & strTime
+strDate = Replace(strDate, "/", " ")
+
+If strFilePrefix = vbNullString Then strOutputPrefix = strCurWBName Else strOutputPrefix = strFilePrefix
+strNewWBName = strOutputPrefix & " AUTO EXPORT " & strDate & " at " & strTime & ".csv"
+
+strAWName = ActiveWorkbook.Name
+Workbooks.Add
+
+strTempNewWBName = ActiveWorkbook.Name
+
+Workbooks(strCurWBName).Sheets(strCurWSName).Activate
+For i = 1400 To 2000
+    If Cells(i, 1) = vbNullString Then intLastRow = i - 1: Exit For
+Next i
+Rows("1:" & intLastRow).Select
+strCurDir = ActiveWorkbook.Path
+Selection.Copy
+
+Application.DisplayAlerts = False
+Workbooks(strTempNewWBName).Activate
+Sheets(1).Activate
+Selection.PasteSpecial Paste:=xlPasteAll, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+Application.CutCopyMode = False
+
+
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
+strPath = strCurDir & "\CSV AUTO EXPORT\"
+strfilename = strPath & strNewWBName
+If Len(Dir(strPath, vbDirectory)) = 0 Then
+    MkDir strPath
+End If
+ActiveWorkbook.SaveAs Filename:=strfilename, FileFormat:=xlCSV, CreateBackup:=False
+
+
+Workbooks(strNewWBName).Close
+Application.DisplayAlerts = True
+
+'vbOpenFolder = MsgBox("The file was exported successfully. You may find it in the same directory as this workbook." & vbCrLf & vbCrLf _
+    & "Open the folder location now?", vbYesNo)
+
+If vbOpenFolder = vbYes Then
+    Shell "explorer.exe " & strPath, vbNormalFocus
+End If
+
+End Sub
+
+
+
+
+

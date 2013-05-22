@@ -1,0 +1,10 @@
+Dim app as New Excel.Application
+app.Visible = False 'Visible is False by default, so this isn't necessary
+Dim book As Excel.Workbook
+Set book = app.Workbooks.Add(fileName)
+'
+' Do what you have to do
+'
+book.Close SaveChanges:=False
+app.Quit
+Set app = Nothing

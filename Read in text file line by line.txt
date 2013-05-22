@@ -1,0 +1,16 @@
+' From StackOverflow: http://stackoverflow.com/questions/12620095/vba-put-data-from-file-to-excel-sheets
+Sub Read_text_File()
+	Dim oFSO As New FileSystemObject
+	Dim oFS
+	Dim sText as String
+	Dim vArray
+	Dim lCnt as Long
+
+	Set oFS = oFSO.OpenTextFile("c:\textfile.TXT")
+
+	Do Until oFS.AtEndOfStream
+		lCnt = lCnt + 1 
+		sText = oFS.ReadLine
+		vArray(lCnt) = sText
+	Loop
+End Sub

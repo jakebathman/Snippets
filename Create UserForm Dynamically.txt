@@ -1,0 +1,37 @@
+' Code from: http://database.ittoolbox.com/groups/technical-functional/excel-l/dynamic-excel-forms-using-vba-1037672#M1101469
+
+Private Sub UserForm_Activate() 
+Dim txtBox As MSForms.TextBox 
+Dim rngFields As Excel.Range 
+Dim field As Excel.Range 
+Dim lngNextTop As Long 
+Dim lngTitleBarHeight As Long 
+
+Const cTextBoxHeight As Long = 18 
+Const cTextBoxWidth As Long = 100 
+Const cGap As Long = 4 
+
+Set rngFields = Excel.Range("tblFields") 
+
+lngTitleBarHeight = Me.Height - Me.InsideHeight 
+
+lngNextTop = cGap 
+
+For Each field In rngFields 
+If field.Value <> "" Then 
+Set txtBox = Me.Controls.Add("Forms.TextBox.1", "txt" & field.Value, True) 
+
+txtBox.Text = field.Value 
+txtBox.Left = cGap 
+txtBox.Top = lngNextTop 
+txtBox.Height = cTextBoxHeight 
+txtBox.Width = cTextBoxWidth 
+
+lngNextTop = lngNextTop + cTextBoxHeight + cGap 
+
+Me.Height = lngNextTop + lngTitleBarHeight 
+End If 
+Next field 
+
+Set txtBox = Nothing 
+End Sub
